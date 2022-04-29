@@ -15,7 +15,7 @@ class MyDB
         $this->mode = $mode;
 
         // DB接続
-        $this->mysqli = new mysqli('database-1.cz5czgrhup9k.ap-northeast-1.rds.amazonaws.com', 'admin', '7008]umM', 'test');
+        $this->mysqli = new mysqli(host, user, password, database);
         if ($this->mysqli->connect_error) {
             echo $this->mysqli->connect_error;
             exit;
