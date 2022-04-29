@@ -1,0 +1,9 @@
+.box {
+  width: 200px;                /* 横幅を200pxに指定 */
+  height: 200px;               /* 横幅を200pxに指定 */
+  border: 1px solid #000;      /* わかりやすくボーダーを引く */
+  overflow-x: scroll;          /* 横方向にスクロール可能にする */
+}
+.box p {
+  width: 400px;                /* 親要素よりも大きくする */
+}

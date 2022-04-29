@@ -1,0 +1,107 @@
+html {
+  height: 100%;
+  font-size:16px;
+  padding: 5px 20px
+}
+body {
+  height: 100%;
+}
+article {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 20% 7% 1fr 30% 15% 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+
+}
+article > * {
+    margin: 3px;
+}
+
+.title {
+  grid-row: 1;
+  overflow-y  : auto;
+  overflow-x : auto;
+  /*white-space: nowrap;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+*/
+   border-bottom: 5px solid black;
+}
+
+.title > h2 {
+  text-align: center;
+  margin: auto 0;
+}
+.owner_info {
+  grid-row: 2;
+}
+
+.button_row {
+  grid-row: 4;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5%;
+}
+
+.comment {
+  margin-bottom: auto;
+  margin-top: 5%;
+  grid-row: 5;
+  text-align:center;
+}
+.comment > input {
+  font-size:16px;
+  width: 90%;
+
+}
+
+.button {
+  position: relative;
+  padding: 10px;
+  border-radius: 10px;
+  text-align:center;
+  border: 2px solid;
+  vertical-align: middle
+}
+
+.button > a::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: "";
+  background-color: transparent;
+}
+
+.button > a {
+  display: block;
+  font-size: 30px;
+  color: black;
+  text-decoration: none;
+}
+
+#goodButton {
+  grid-column: 1;
+  border-color: #4682B4;
+  background: #4682B480;
+}
+
+#badButton {
+  grid-column: 2;
+  border-color: #C20000;
+  background: #C2000080;
+}
+
+.room_exit {
+  grid-row: 6;
+
+}
+

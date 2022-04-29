@@ -1,0 +1,25 @@
+#ressvg {
+  text-align: center;
+}
+
+.slideR {
+  z-index: 99;
+  cursor: pointer;
+  position: fixed;
+  top: 40%;
+  right: -140px;
+  width: 180px;
+  color: #fff;
+  font-size: 16px;
+  background: #0DCEA8;
+  display: table;
+}
+
+.goodComment {
+  background: #4682B4;
+}
+
+.badComment {
+  background: #C20000;
+}:
+

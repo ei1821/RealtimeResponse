@@ -1,0 +1,133 @@
+function test_call() {
+
+  const N = 120;
+
+  var dataset = res_logs.slice(0, N);
+  var arr0 = [...Array(N)].map((_, i) => ({"good":0, "bad":0, "datetime": i + "x"}));
+  dataset.push(...arr0);
+  dataset = dataset.slice(0, N);
+  dataset.reverse()
+  var max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
+  var width = 800; // グラフの幅
+  var height = 200; // グラフの高さ
+  var padding = 30; // スケール表示用マージン
+
+  // 2. SVG領域の設定
+  var svg = d3.select("svg");
+  svg.remove();
+  svg = d3.select("#ressvg").append("svg").attr("width", width).attr("height", height*2);
+
+  // 3. 軸スケールの設定
+  var xScale = d3.scaleBand()
+    .rangeRound([padding, width - padding])
+    .padding(0.1)
+    .domain(dataset.map(function(d) { return d.datetime; }));
+
+  var yScale = d3.scaleLinear()
+    .domain([0, max_domain])
+    .range([height - padding, padding]);
+
+  var myScale = d3.scaleLinear()
+    .domain([0, max_domain])
+    .range([height - padding, height * 2 - padding * 3]);
+
+  // 4. 軸の表示
+  svg.append("g")
+    .attr("transform", "translate(" + 0 + "," + (height - padding) + ")")
+    .call(d3.axisBottom(xScale).tickFormat(function(d, i) {
+      return "";
+    }).tickSize([0, 0]));
+
+  svg.append("g")
+    .attr("transform", "translate(" + 0 + "," + (height * 2 - padding * 2) + ")")
+    .call(d3.axisTop(xScale).tickValues(xScale.domain().filter(function(d, i) {
+      return (d.slice(-2) == "00" || d.slice(-2) == "30");
+    })).tickFormat(function(d, i) {
+      if(d.slice(-2) == "00" || d.slice(-2) == "30") return d.slice(-8);
+      return "";
+    }));
+
+  svg.append("g")
+    .attr("transform", "translate(" + padding + "," + 0 + ")")
+    .call(d3.axisLeft(yScale).tickFormat(function(d, i) {
+      if(d == parseInt(d)) return d;
+      return "";
+    }).ticks(10));
+
+  svg.append("g")
+    .attr("transform","translate(" + padding + "," + 0 + ")")
+    .call(d3.axisLeft(myScale).tickFormat(function(d, i) {
+
+      if(d == parseInt(d)) return d;
+      return "";
+    }))
+
+
+  // 5. バーの表示
+  svg.append("g")
+    .selectAll("rect")
+    .data(dataset.slice(0, dataset.length - 1))
+    .enter()
+    .append("rect")
+    .attr("x", function(d) { return xScale(d.datetime); })
+    .attr("y", function(d) { return yScale(d.good); })
+    .attr("width", xScale.bandwidth())
+    .attr("height", function(d) { return height - padding - yScale(d.good); })
+    .attr("fill", "steelblue")
+    .transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+    .attr("x", function(d) { return xScale(d.datetime) - xScale.bandwidth();});
+
+
+  svg.append("g")
+    .selectAll("rect")
+    .data(dataset.slice(-1))
+    .enter()
+    .append("rect")
+    .attr("x", function(d) { return xScale(d.datetime); })
+    .attr("y", function(d) { return height - padding; })
+    .attr("width", xScale.bandwidth())
+    .attr("fill", "steelblue")
+    .transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+    .attr("y", function(d) { return yScale(d.good); })
+    .attr("height", function(d) { return height - padding - yScale(d.good); })
+    .attr("x", function(d) { return xScale(d.datetime) - xScale.bandwidth();});
+
+  svg.append("g")
+    .selectAll("rect")
+    .data(dataset.slice(0, dataset.length-1))
+    .enter()
+    .append("rect")
+    .attr("x", function(d) { return xScale(d.datetime); })
+    .attr("y", function(d) { return height - padding; })
+    .attr("width", xScale.bandwidth())
+    .attr("height", function(d) { return myScale(d.bad) + padding - height; })
+    .attr("fill", "#C20000")
+    .transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+    .attr("x", function(d) { return xScale(d.datetime) - xScale.bandwidth();});
+
+  svg.append("g")
+    .selectAll("rect")
+    .data(dataset.slice(-1))
+    .enter()
+    .append("rect")
+    .attr("x", function(d) { return xScale(d.datetime); })
+    .attr("y", function(d) { return height - padding; })
+    .attr("width", xScale.bandwidth())
+    .attr("fill", "#C20000")
+    .transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+    .attr("height", function(d) { return myScale(d.bad) + padding - height; })
+    .attr("x", function(d) { return xScale(d.datetime) - xScale.bandwidth();});
+
+
+  svg.selectAll(".x.axis path").remove();
+
+}
+

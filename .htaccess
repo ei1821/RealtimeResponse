@@ -1,0 +1,14 @@
+
+<Files ~ "^\.ht">
+deny from all
+</Files>
+
+#Options +FollowSymLinks 
+
+#Options -Indexes
+
+#RewriteEngine on
+
+#RewriteCond %{THE_REQUEST} ^.*/Room/.*$
+#RewriteRule ^(.*)$ take_room\.php [L]
+ 

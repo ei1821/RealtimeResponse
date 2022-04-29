@@ -1,0 +1,45 @@
+html {
+  height: 100%;
+  width: 90%;
+  margin: 10px 50px;
+}
+
+
+body {
+  height: 100%;
+}
+
+article {
+  height: 100%;
+}
+
+#history {
+}
+
+.history_row {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 25% 25% 25% 25%;
+  border-bottom: 3px solid black;
+  margin: 10px 0;
+}
+
+.history_row_name {
+  grid-column: 1;
+}
+
+.history_row_created_at {
+  grid-column: 2;
+}
+
+.history_row_closed_at {
+  grid-column: 3;
+}
+
+.history_row_num {
+  grid-column: 4;
+
+}
+
+
+
