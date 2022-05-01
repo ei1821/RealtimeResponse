@@ -105,28 +105,31 @@ ini_set('display_errors', "On");
         var ds = setup();
         make_graph(ds);
 
-		$(document).on("mouseover", ".overrect", function() {
+		$(document).on("mouseenter", ".overrect", function() {
 			var mousewheelevent = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
     		$(document).on(mousewheelevent,function(e){
         		e.preventDefault();
         		var delta = e.originalEvent.deltaY ? -(e.originalEvent.deltaY) : e.originalEvent.wheelDelta ? e.originalEvent.wheelDelta : -(e.originalEvent.detail);
+				console.log(delta);
         		if (delta < 0){
 					rate++;
-        		} else {
+				} else if(delta > 0) {
 					rate--;
         		}
-    		});
-            console.log($(this).data("time"));
-			var ds = zoom_graph($(this).data("time"), rate);
-			make_graph(ds);
-        });
+			}, () => {
+				if(delta != 0) {
+					console.log($(this).data("time"));
+					var ds = zoom_graph($(this).data("time"), rate);
+					make_graph(ds);
+				}});
+		}, () => {delta = 0;});
     }
 
  </script>
  </head>
  <body>
 
- <!----- main ----->
+ <!-- main -->
  <article>
 
   <h2><?= $room_info["name"] ?></h2>

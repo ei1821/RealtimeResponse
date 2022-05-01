@@ -28,12 +28,12 @@ session_start();
  <script ></script>
  </head>
  <body>
- <!----- header----->
+ <!-- header-->
  <header><?= $msg ?> <?= $link ?> </header>
  <nav></nav>
- <!----- /header ----->
+ <!-- /header -->
 
- <!----- main ----->
+ <!-- main -->
  <article>
  <h1>リアルタイムで理解度のレスポンスを返すやつ</h1>
  <section>
@@ -56,10 +56,10 @@ if( isset($user_id) ) {
 ?>
 </section>
  </article>
- <!----- /main ----->
+ <!--- /main ----->
 
- <!----- footer ----->
+ <!- footer -->
  <footer>フッター</footer>
- <!----- /footer ----->
+ <!--- /footer ----->
  </body>
 </html>
