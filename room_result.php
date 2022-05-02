@@ -105,6 +105,7 @@ ini_set('display_errors', "On");
         var ds = setup();
         make_graph(ds);
 
+<<<<<<< HEAD
 		$(document).on("contextmenu", "svg", e => false);
 		$(document).on("contextmenu click", ".overrect", function(e) {
 			if(e.which == 1) { // 左クリック
@@ -123,6 +124,26 @@ ini_set('display_errors', "On");
 					var ds = zoom_graph($(this).data("time"), rate);
 					make_graph(ds);
 */
+=======
+		$(document).on("mouseenter", ".overrect", function() {
+			var mousewheelevent = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+    		$(document).on(mousewheelevent,function(e){
+        		e.preventDefault();
+        		var delta = e.originalEvent.deltaY ? -(e.originalEvent.deltaY) : e.originalEvent.wheelDelta ? e.originalEvent.wheelDelta : -(e.originalEvent.detail);
+				console.log(delta);
+        		if (delta < 0){
+					rate++;
+				} else if(delta > 0) {
+					rate--;
+        		}
+			}, () => {
+				if(delta != 0) {
+					console.log($(this).data("time"));
+					var ds = zoom_graph($(this).data("time"), rate);
+					make_graph(ds);
+				}});
+		}, () => {delta = 0;});
+>>>>>>> 330ec2002da78d2c36d64ea0f728b6755fea0578
     }
 
  </script>
