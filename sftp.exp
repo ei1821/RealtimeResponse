@@ -1,0 +1,31 @@
+#!/usr/bin/expect
+
+set CMD1 "cd public_html/"
+set CMD2 "put -pr *"
+
+set timeout 5
+
+spawn env sftp aws-php-ei1821
+
+expect {
+	"sftp>" {
+		send "${CMD1}\r"
+	}
+}
+expect {
+	"sftp>" {
+		send "${CMD2}\r"
+	}
+}
+expect {
+	"sftp>" {
+		send "bye\r"
+	}
+}
+expect {
+	eof {
+		exit 0
+	}
+}
+
+

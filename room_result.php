@@ -105,28 +105,31 @@ ini_set('display_errors', "On");
         var ds = setup();
         make_graph(ds);
 
-		$(document).on("mouseover", ".overrect", function() {
-			var mousewheelevent = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
-    		$(document).on(mousewheelevent,function(e){
-        		e.preventDefault();
-        		var delta = e.originalEvent.deltaY ? -(e.originalEvent.deltaY) : e.originalEvent.wheelDelta ? e.originalEvent.wheelDelta : -(e.originalEvent.detail);
-        		if (delta < 0){
-					rate++;
-        		} else {
-					rate--;
-        		}
-    		});
-            console.log($(this).data("time"));
-			var ds = zoom_graph($(this).data("time"), rate);
+		$(document).on("contextmenu", "svg", e => false);
+		$(document).on("contextmenu click", ".overrect", function(e) {
+			if(e.which == 1) { // 左クリック
+				rate++;
+			}
+			else if(e.which == 3) { // 右クリック
+				rate--;
+			}
+			console.log($(this).data("time"));
+			var ds = zoom_graph($(this).data("time"));
 			make_graph(ds);
-        });
+			console.log(rate);
+		});
+/*
+					console.log($(this).data("time"));
+					var ds = zoom_graph($(this).data("time"), rate);
+					make_graph(ds);
+*/
     }
 
  </script>
  </head>
  <body>
 
- <!----- main ----->
+ <!-- main -->
  <article>
 
   <h2><?= $room_info["name"] ?></h2>
@@ -138,10 +141,10 @@ ini_set('display_errors', "On");
 
   <a href="room_histories.php">ルームを選ぶ</a>
   </article>
- <!----- /main ----->
+ <!-- /main -->
 
- <!----- footer ----->
- <!----- /footer ----->
+ <!-- footer -->
+ <!-- /footer -->
 
     <script src="js/utils.js"></script>
     <script src="js/result.js"></script>

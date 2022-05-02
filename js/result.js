@@ -48,14 +48,19 @@ function comments_range(left, right) {
 			rate - 拡大倍率の状態 全体に対してrate ** MAGNIFACATIONだけズームされる
 	返り値:	新たなdateset
 */
-function zoom_graph(datetime, rate = 0) {
-	if(rate < 0) return zoom_graph(datetime);
+function zoom_graph(datetime) {
+	if(rate < 0) {
+		rate = 0;
+		return zoom_graph(datetime);
+	}
 	var n = N;
 	if(data_len < n) n = data_len;
 	var new_data_len = idv(data_len, MAGNIFICATION ** rate);
 	if(new_data_len < n) {
-		if(rate != 0)
-			return zoom_graph(datetime, rate-1);
+		if(rate != 0) {
+			rate--;
+			return zoom_graph(datetime);
+		}
 		new_data_len = N;
 	}
 	var ds = Array();
