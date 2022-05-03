@@ -68,10 +68,10 @@ async function res_poll() {
 async function com_poll() {
     var id = <?= $room_id ?>;
     try {
-      comments = await $.getJSON("comment_ajax.php?room_id=" + id);
-      for(let i = 0; i < comments.length; ++i ){
-        niconicomment(i, comments[i].comment, comments[i].is_good);
-      }
+		comments = await $.getJSON("comment_ajax.php?room_id=" + id);
+		for(let i = 0; i < comments.length; ++i ){
+			niconicomment(i, comments[i].comment, comments[i].is_good);
+		}
     }catch(e) {
       console.error(e);
     } finally {
@@ -92,7 +92,7 @@ async function com_poll() {
 <h1><?= $room_name ?></h1>
 <h2>理解度チェック</h2>
 <div id="ressvg">
-  <svg width="500" height="100">
+  <svg>
   </svg>
 </div>
 
@@ -102,6 +102,9 @@ async function com_poll() {
 <a href="room_close.php">ルームを閉じる</a>
 <p><a href="index.php">ホームに戻る</a></p>
 </section>
+<div id="comment_area">
+
+</div>
  </article>
  <!----- /main ----->
 
