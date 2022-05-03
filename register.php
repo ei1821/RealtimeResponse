@@ -25,4 +25,4 @@ else {
 ?>
 
 <h1><?php echo $msg; ?></h1><!--メッセージの出力-->
-<?php echo $link; ?>
+<h2><?php echo $link; ?></h2>
