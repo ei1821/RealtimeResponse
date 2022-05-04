@@ -5,31 +5,40 @@ var padding = 30; // スケール表示用マージン
 
 var svg = d3.select("svg");
 svg.attr("width", width).attr("height", height*2);
+var max_domain, xScale, pyScale, myScale;
 
-
-function test_call() {
-
-    // 2. データセットの形成
+function data_cleansing() {
+	    // 2. データセットの形成
     var dataset = res_logs.slice(0, N);
     var arr0 = [...Array(N)].map((_, i) => ({"good":0, "bad":0, "datetime": i + "_"}));
     dataset.push(...arr0);
     dataset = dataset.slice(0, N);
     dataset.reverse()
-    var max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
+    max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
+	return dataset;
+}
+
+function axis_setting() {
+	var dataset = data_cleansing();
 
   // 3. 軸スケールの設定
-    var xScale = d3.scaleBand()
+    xScale = d3.scaleBand()
         .rangeRound([padding, width - padding])
         .padding(0.1)
         .domain(dataset.map(function(d) { return d.datetime; }));
 
-    var pyScale = d3.scaleLinear()
+    pyScale = d3.scaleLinear()
         .domain([0, max_domain])
         .range([height - padding, padding]);
 
-    var myScale = d3.scaleLinear()
+    myScale = d3.scaleLinear()
         .domain([0, max_domain])
         .range([height - padding, height * 2 - padding * 3]);
+	return dataset;
+}
+
+function test_call() {
+	var dataset = axis_setting();
 
   // 3.5 不要な軸やグラフの削除
     svg.selectAll(".svg-axis").remove();
@@ -80,6 +89,7 @@ function test_call() {
         if(d == parseInt(d)) return d;
             return "";
         }).ticks(5));
+
     const moving_mili_sec = 1050;
 
     // 5. バーの表示

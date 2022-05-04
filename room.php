@@ -99,11 +99,11 @@ async function com_poll() {
 <input type="hidden" id="response_hiddenbutton" onclick="test_call();"></input>
  <script src="js/graph.js"></script>
  <script src="js/comment.js"></script>
+ <script src="js/resize_graph.js"></script>
 <a href="room_close.php">ルームを閉じる</a>
 <p><a href="index.php">ホームに戻る</a></p>
 </section>
 <div id="comment_area">
-
 </div>
  </article>
  <!----- /main ----->
