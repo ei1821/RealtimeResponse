@@ -15,6 +15,7 @@ var max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
 
 
 /* setup 引数: なし
+ * 全体に対するデータセットを生成する
     */
 function setup() {
     var ds = Array();
@@ -22,15 +23,8 @@ function setup() {
     if(data_len < n) n = data_len;
     var step = ( 0 | data_len / n);
 
-    for(let i = 1; i <= n; ++i) { // 最後の要素がルームを閉じた時間になるようにする
-        let target = i * step + data_len % n; // i本目のバーのdatetime
-        let target_utime = first.getTime() + target * 1000;
-        var idx = binary_search(dataset, target_utime, function(a, b) { return new Date(a.datetime).getTime() < b; });
-        if(idx > 0) idx--;
-        var tmp = deep_copy(dataset[idx]);
-        tmp.datetime = getDateTime(target_utime);
-        ds.push(tmp);
-    }
+	return data_selecting(n, data_len, first.getTime());
+
     return ds;
 }
 /*
@@ -70,9 +64,21 @@ function zoom_graph(datetime) {
 	var new_first = base_utime - idv(new_data_len, 2) * 1000,
 		new_last  = base_utime + idv(new_data_len, 2) * 1000;
 
+	return data_selecting(n, new_data_len, new_last);
+}
+
+/* data_selecting
+ * [first, last] の範囲で均等な間隔でデータを抽出しデータセットを生成する
+ * 引数: 範囲の下限firstと上限last unixtime形式
+ * 返り値: データセット
+ */
+function data_selecting(n, len, first) {
+	var ds = Array();
+	var step = idv(len, n);
+
 	for(let i = 1; i <= n; ++i) {
-        let target = i * step + new_data_len % n; // i本目のバーのdatetime
-        let target_utime = new_first + target * 1000;
+        let target = i * step + len % n; // i本目のバーのdatetime
+        let target_utime = first + target * 1000;
         var idx = binary_search(dataset, target_utime, function(a, b) { return new Date(a.datetime).getTime() < b; });
         if(idx > 0) idx--;
         var tmp = deep_copy(dataset[idx]);
@@ -82,7 +88,7 @@ function zoom_graph(datetime) {
 	return ds;
 }
 
-/* 引数: 表示するバー情報のリスト (length <= N) */
+/* 引数: 表示するバー情報のリスト (dataset.length <= N) */
 function make_graph(dataset) {
   // 3. 軸スケールの設定
     var xScale = d3.scaleBand()
@@ -194,6 +200,7 @@ const binary_search = (arr, val, func, first = 0, last = arr.length) => {
     return last;
 }
 
+/* 多分使わないけどlbとubの違いがわからなくなったときに困る */
 const upper_bound = (arr, val, first = 0, last = arr.length) => {
     first -= 1;
     while (last - first > 1) {

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/utils/utils.php";
+require_once __DIR__."/../utils/utils.php";
 
 if (isset($_GET["room_id"]) == true && $_GET["room_id"] != "") {
   $room_id = intval($_GET["room_id"]);

@@ -1,8 +1,6 @@
 <?php
 
-
-require_once __DIR__.'/utils/utils.php';
-
+require_once __DIR__.'/../utils/utils.php';
 
 // 処理モードの取得
 $room_id = -1;

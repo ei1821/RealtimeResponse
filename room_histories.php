@@ -47,6 +47,15 @@
     echo "ルームの履歴がありません";
   }
   else {
+	?>
+<div class="history_row" data-id="Nan">
+	<div class="history_row_name">ルーム名</div>
+	<div class="history_row_created_at">開始日時</div>
+	<div class="history_row_closed_at">終了日時</div>
+	<div class="history_row_num">参加人数</div>
+</div>
+
+<?php
     foreach ($res["result"] as $row) {
       $tr = array();
       $tr["hitsory_row_name"] = $row["name"];
