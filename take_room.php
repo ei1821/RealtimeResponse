@@ -45,7 +45,7 @@ function sendReaction(tf) {
     // マスタデータの取得
     $.ajax({
         type: "POST"
-      , url: "./reaction_send_ajax.php"
+      , url: "ajax/reaction_send_ajax.php"
       , data: { user_id: <?= $user_id ?>, room_id: <?= $room_id ?>, is_good: tf, text: txt}
     }).done(function(){
         // 特になし

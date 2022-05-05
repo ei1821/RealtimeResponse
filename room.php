@@ -52,7 +52,7 @@ var comments = [];
 async function res_poll() {
     var id = <?= $room_id ?>;
     try {
-        const response = await $.getJSON("response_ajax.php?room_id=" + id);
+        const response = await $.getJSON("ajax/response_ajax.php?room_id=" + id);
         res_logs.unshift(response);
         //console.log(res_logs);
         //$('#response').prepend("<p>good : " + response.good + " bad : " + response.bad + "</p>");
@@ -68,7 +68,7 @@ async function res_poll() {
 async function com_poll() {
     var id = <?= $room_id ?>;
     try {
-		comments = await $.getJSON("comment_ajax.php?room_id=" + id);
+		comments = await $.getJSON("ajax/comment_ajax.php?room_id=" + id);
 		for(let i = 0; i < comments.length; ++i ){
 			niconicomment(i, comments[i].comment, comments[i].is_good);
 		}
