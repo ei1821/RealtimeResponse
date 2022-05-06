@@ -64,7 +64,16 @@ function zoom_graph(datetime) {
 	var new_first = base_utime - idv(new_data_len, 2) * 1000,
 		new_last  = base_utime + idv(new_data_len, 2) * 1000;
 
-	return data_selecting(n, new_data_len, new_last);
+	if(new_first < first.getTime()) { // originalのデータセットの最古値未満 {
+		new_last += first.getTime() - new_first;
+		new_first = first.getTime();
+	}
+	if(end.getTime() < new_last) {
+		new_first -= new_last - end.getTime();
+		new_last   = end.getTime();
+	}
+
+	return data_selecting(n, new_data_len, new_first);
 }
 
 /* data_selecting
@@ -85,6 +94,36 @@ function data_selecting(n, len, first) {
         tmp.datetime = getDateTime(target_utime);
         ds.push(tmp);
 	}
+	return ds;
+}
+/*
+ * lr=0: 左移動(過去に) lr=1: 右移動(未来に)
+ */
+function move_graph(old_ds, lr=0) {
+	var first = new Date(old_ds[1].datetime), last = new Date(old_ds[0].datetime);
+	var step = first.getTime() - last.getTime();
+	var target_utime;
+	var ds = deep_copy(old_ds);
+	return ds;
+	if(lr == 0) { // i == 0 だった場合の処理を忘れない
+		if(dataset[0] === ds[0]) return old_ds;
+		target_utime = first.getTime() - step;
+	}
+	else {
+		if(dataset.slice(-1)[0] === ds.slice(-1)[0]) return old_ds;
+		target_utime = last.getTime() + step;
+	}
+	var idx = binary_search(dataset, target_utime, (a, b) => new Date(a.datetime).getTime() < b);
+	var new_data = deep_copy(dataset[idx]);
+	if(lr == 0) {
+		ds.shift();
+		ds.unshift(new_data);
+	}
+	else {
+		ds.pop();
+		ds.push(new_data);
+	}
+
 	return ds;
 }
 

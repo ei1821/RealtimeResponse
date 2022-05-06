@@ -104,6 +104,7 @@ ini_set('display_errors', "On");
     window.onload = function() {
         var ds = setup();
         make_graph(ds);
+
 		$(document).on("contextmenu", "svg", e => false);
 		$(document).on("contextmenu click", ".overrect", function(e) {
 			if(e.which == 1) { // 左クリック
@@ -112,10 +113,8 @@ ini_set('display_errors', "On");
 			else if(e.which == 3) { // 右クリック
 				rate--;
 			}
-			console.log($(this).data("time"));
 			var ds = zoom_graph($(this).data("time"));
 			make_graph(ds);
-			console.log(rate);
 		});
     }
 
