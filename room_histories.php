@@ -19,6 +19,7 @@
  <title>過去のルーム</title>
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="css/style.css">
  <link rel="stylesheet" href="css/room_histories.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <script>

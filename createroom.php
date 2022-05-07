@@ -1,5 +1,5 @@
-<?php 
-    require_once __DIR__."/utils/utils.php"; 
+<?php
+    require_once __DIR__."/utils/utils.php";
     session_start();
 
     $db = new MyDB();
@@ -16,15 +16,15 @@
     else {
         $username = $_SESSION['name'];
         $user_id = $_SESSION["id"];
-        
+
         $res = $db->query("SELECT * FROM `rooms` WHERE owner_id=$user_id AND is_closed=0");
         if($res["count"] > 0) {
-            
+
             $res = $res["result"][0];
             $_SESSION["room_id"] = $res["id"];
             $_SESSION["room_name"]  = $res["name"];
             header("Location: room.php");
-            exit;      
+            exit;
         }
     }
 
@@ -37,7 +37,7 @@
  <title>なんかのサイトのホーム</title>
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="css/style.css">
  <!-- [if lt IE 9] -->
  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
  <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -65,7 +65,7 @@
 </section>
  </article>
  <!----- /main ----->
- 
+
  <!----- footer ----->
  <footer>フッター</footer>
  <!----- /footer ----->

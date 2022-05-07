@@ -100,18 +100,20 @@ function data_selecting(n, len, first) {
  * lr=0: 左移動(過去に) lr=1: 右移動(未来に)
  */
 function move_graph(old_ds, lr=0) {
-	var first = new Date(old_ds[1].datetime), last = new Date(old_ds[0].datetime);
-	var step = first.getTime() - last.getTime();
+	var first = new Date(old_ds[0].datetime), last = new Date(old_ds.slice(-1)[0].datetime);
+	var step = first.getTime() - new Date(old_ds[1].datetime).getTime();
 	var target_utime;
 	var ds = deep_copy(old_ds);
 	return ds;
 	if(lr == 0) { // i == 0 だった場合の処理を忘れない
 		if(dataset[0] === ds[0]) return old_ds;
 		target_utime = first.getTime() - step;
+		if(target_utime < dataset[0].getTime()) target_utime = dataset[0].getTime();
 	}
 	else {
 		if(dataset.slice(-1)[0] === ds.slice(-1)[0]) return old_ds;
 		target_utime = last.getTime() + step;
+		if(dataset.slice(-1)[0].getTime() < target_utime) target_utime = dataset.slice(-1)[0].getTime();
 	}
 	var idx = binary_search(dataset, target_utime, (a, b) => new Date(a.datetime).getTime() < b);
 	var new_data = deep_copy(dataset[idx]);

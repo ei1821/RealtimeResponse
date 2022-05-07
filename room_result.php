@@ -94,6 +94,7 @@ ini_set('display_errors', "On");
  <title>履歴</title>
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="css/style.css">
  <link rel="stylesheet" href="css/room_histories.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -113,7 +114,24 @@ ini_set('display_errors', "On");
 			else if(e.which == 3) { // 右クリック
 				rate--;
 			}
-			var ds = zoom_graph($(this).data("time"));
+			ds = zoom_graph($(this).data("time"));
+			make_graph(ds);
+		});
+
+		$(document).on("keydown", function(e) {
+			var key_name = e.key;
+			if(key_name == "ArrowRight") { // 未来に
+				ds = move_graph(ds, 1);
+			}
+			else if(key_name == "ArrowLeft"){
+				ds = move_graph(ds, 0);
+			}
+			else return;
+
+
+			console.log("left : ", ds[0].datetime);
+			console.log("right : ", ds.slice(-1)[0].datetime);
+
 			make_graph(ds);
 		});
     }
