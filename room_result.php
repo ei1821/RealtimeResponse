@@ -40,6 +40,7 @@ ini_set('display_errors', "On");
   $m = intval($comments["count"]);
   $reactions = $reactions["result"];
   $comments = $comments["result"];
+  $new_cm = array();
   $users = array();
   $gb = array("good" => 0, "bad" => 0);
   $dataset = array(array("datetime" => $room_info["created_at"], "good" => 0, "bad" => 0, "comments" => array()));
@@ -79,12 +80,23 @@ ini_set('display_errors', "On");
     }
     $tmp = array("datetime" => $now, "good" => $gb["good"], "bad" => $gb["bad"], "comments" => $tmp_cm);
     if($prev_gb != $gb || count($tmp_cm) != 0) {
-      $dataset[] = $tmp;
-    }
+		$dataset[] = $tmp;
+	}
+
+
     $date->modify("+1 seconds");
   }
+  // 番兵
   $tmp["datetime"] = $room_info["closed_at"];
   $dataset[] = $tmp;
+
+  $new_cm = array();
+  for($i=0; $i < count($comments); $i++) {
+	  $row = $comments[$i];
+	  $new_cm[] = array("id" => $row["id"], "datetime" => $row["created_at"], "is_good" => $row["is_good"], "comments" => $row["comment"]);
+  }
+
+  $comments = $new_cm;
 
  ?>
 <!DOCTYPE html>
@@ -103,7 +115,7 @@ ini_set('display_errors', "On");
   var comments= JSON.parse('<?= json_encode($comments, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>');
   var rate = 0;
     window.onload = function() {
-        var ds = setup();
+		var ds = data_selecting(data_len, first.getTime());
         make_graph(ds);
 
 		$(document).on("contextmenu", "svg", e => false);
@@ -128,9 +140,16 @@ ini_set('display_errors', "On");
 			}
 			else return;
 
-
 			make_graph(ds);
 		});
+
+		$(document).on("mouseover", ".overrect", function(e) {
+			var cms = comments_range(new Date($(this).data("time")).getTime(), new Date($(this).next("rect").data("time")).getTime());
+			if(cms.length > 0) {
+				console.log(cms);
+			}
+		});
+
     }
 
  </script>

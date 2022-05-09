@@ -7,21 +7,13 @@ const MAGNIFICATION = 2; // 一度の拡大による倍率の変化度
 var svg = d3.select("svg");
 svg.attr("width", width).attr("height", height*2);
 
-var first = dataset[0], last = dataset.slice(-1)[0];
-first = new Date(first.datetime);
-last   = new Date(last.datetime);
+var first = new Date(dataset[0].datetime), last = new Date(dataset.slice(-1)[0].datetime);
 var data_len = idv(last.getTime() - first.getTime(), 1000);
 var max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
 const n = () => min(N, data_len);
 
-/* setup 引数: なし
- * 全体に対するデータセットを生成する
-    */
-function setup() {
-	return data_selecting(data_len, first.getTime());
-}
 /*
-	DATETIMEが[left, right)内のコメントのリストを返す
+	unixtimeが[left, right)内のコメントのリストを返す
 */
 function comments_range(left, right) {
 	var l_idx = binary_search(comments, left, (a, b) => new Date(a.datetime).getTime() <  b);
@@ -119,7 +111,6 @@ function move_graph(old_ds, lr=0) {
 	//targetより大きい最初のidxが返されるため-1
 	var new_data = deep_copy(dataset[idx-1]);
 	new_data.datetime = getDateTime(target_utime);
-	console.log(new_data.datetime);
 	if(lr == 0) {
 		ds.pop();
 		ds.unshift(new_data);
@@ -229,6 +220,19 @@ function make_graph(dataset) {
         .attr("width", xScale.bandwidth())
         .attr("height", d => height - padding - pyScale(d.good + d.bad))
         .attr("fill-opacity", 0);
+
+	comment_effect();
+}
+/*
+ * コメントが含まれるバーに枠線をつける
+ */
+function comment_effect() {
+	$(".overrect").filter(function(i, e) {
+		var cms = comments_range(new Date($(e).data("time")).getTime(), new Date($(e).next(".overrect").data("time")).getTime());
+		return cms.length > 0;
+	}).attr("stroke-width",2) // 線の太さ
+	.attr("stroke","black") //線の色
+	.addClass("commented");
 
 }
 
