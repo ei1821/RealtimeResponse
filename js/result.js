@@ -2,7 +2,7 @@ var N = 50; // 一度に表示するバーの数
 var width = 800; // 横幅
 var height = 200;
 var padding = 30;
-const MAGNIFICATION = 4; // 一度の拡大による倍率の変化度
+const MAGNIFICATION = 2; // 一度の拡大による倍率の変化度
 
 var svg = d3.select("svg");
 svg.attr("width", width).attr("height", height*2);
@@ -36,6 +36,23 @@ function comments_range(left, right) {
 	return deep_copy(comments.slice(l_idx, r_idx));
 }
 
+/*
+ * 現在のstepと表示されているデータの時間範囲を秒単位で返す
+ */
+function datarange_sec() {
+	var n = min(N, data_len);
+	var new_data_len = idv(data_len, MAGNIFICATION ** rate);
+	if(new_data_len < n) {
+		if(rate != 0) {
+			rate--;
+			return datarange_sec();
+		}
+		new_data_len = n;
+	}
+	return new_data_len;
+}
+
+const step_dataset = () => idv(datarange_sec(), min(N, data_len));
 
 /*
 	引数: 	datetime - 基準となるバーのdatetime形式の時間
@@ -47,18 +64,8 @@ function zoom_graph(datetime) {
 		rate = 0;
 		return zoom_graph(datetime);
 	}
-	var n = N;
-	if(data_len < n) n = data_len;
-	var new_data_len = idv(data_len, MAGNIFICATION ** rate);
-	if(new_data_len < n) {
-		if(rate != 0) {
-			rate--;
-			return zoom_graph(datetime);
-		}
-		new_data_len = N;
-	}
+	var new_data_len = datarange_sec();
 	var ds = Array();
-	var step = idv(new_data_len, n);
 
 	var base_utime = new Date(datetime).getTime();
 	var new_first = base_utime - idv(new_data_len, 2) * 1000,
@@ -73,7 +80,7 @@ function zoom_graph(datetime) {
 		new_last   = end.getTime();
 	}
 
-	return data_selecting(n, new_data_len, new_first);
+	return data_selecting(min(N, data_len), new_data_len, new_first);
 }
 
 /* data_selecting
@@ -101,28 +108,32 @@ function data_selecting(n, len, first) {
  */
 function move_graph(old_ds, lr=0) {
 	var first = new Date(old_ds[0].datetime), last = new Date(old_ds.slice(-1)[0].datetime);
-	var step = first.getTime() - new Date(old_ds[1].datetime).getTime();
+	var step_msec = step_dataset() * 1000;
 	var target_utime;
 	var ds = deep_copy(old_ds);
-	return ds;
+
+
 	if(lr == 0) { // i == 0 だった場合の処理を忘れない
-		if(dataset[0] === ds[0]) return old_ds;
-		target_utime = first.getTime() - step;
-		if(target_utime < dataset[0].getTime()) target_utime = dataset[0].getTime();
+		target_utime = first.getTime() - step_msec;
+		if(target_utime <= new Date(dataset[0].datetime).getTime())
+			return old_ds;
 	}
 	else {
-		if(dataset.slice(-1)[0] === ds.slice(-1)[0]) return old_ds;
-		target_utime = last.getTime() + step;
-		if(dataset.slice(-1)[0].getTime() < target_utime) target_utime = dataset.slice(-1)[0].getTime();
+		target_utime = last.getTime() + step_msec;
+		if(new Date(dataset.slice(-1)[0].datetime).getTime() < target_utime)
+			return old_ds;
 	}
-	var idx = binary_search(dataset, target_utime, (a, b) => new Date(a.datetime).getTime() < b);
-	var new_data = deep_copy(dataset[idx]);
+	var idx = binary_search(dataset, target_utime, (a, b)
+				=> new Date(a.datetime).getTime() <= b);
+	//targetより大きい最初のidxが返されるため-1
+	var new_data = deep_copy(dataset[idx-1]);
+	new_data.datetime = getDateTime(target_utime);
 	if(lr == 0) {
-		ds.shift();
+		ds.pop();
 		ds.unshift(new_data);
 	}
 	else {
-		ds.pop();
+		ds.shift();
 		ds.push(new_data);
 	}
 
@@ -229,6 +240,14 @@ function make_graph(dataset) {
 
 }
 
+const min = (a, b) => {
+	if(a > b) a = b;
+	return a;
+}
+const max = (a, b) => {
+	if(a < b) a = b;
+	return a;
+}
 
 const binary_search = (arr, val, func, first = 0, last = arr.length) => {
     first -= 1;
@@ -253,3 +272,4 @@ const upper_bound = (arr, val, first = 0, last = arr.length) => {
     }
     return last;
 }
+

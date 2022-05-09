@@ -129,9 +129,6 @@ ini_set('display_errors', "On");
 			else return;
 
 
-			console.log("left : ", ds[0].datetime);
-			console.log("right : ", ds.slice(-1)[0].datetime);
-
 			make_graph(ds);
 		});
     }

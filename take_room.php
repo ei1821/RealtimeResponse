@@ -42,7 +42,16 @@
  <script type="text/javascript">
 //Ajax関数
 function sendReaction(tf) {
+
     var txt = d3.select("#comment").property("value");
+
+	console.log(txt.length);
+	if(txt.length > 128) {
+		var er_txt = $("<p>").appendTo($(".comment"));
+		er_txt.text("文字数は128文字以内にしてください");
+		setTimeout(er_txt.remove, 1500);
+		return false;
+	}
     // マスタデータの取得
     $.ajax({
         type: "POST"
