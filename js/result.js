@@ -7,25 +7,18 @@ const MAGNIFICATION = 2; // 一度の拡大による倍率の変化度
 var svg = d3.select("svg");
 svg.attr("width", width).attr("height", height*2);
 
-var first = dataset[0], end = dataset.slice(-1)[0];
+var first = dataset[0], last = dataset.slice(-1)[0];
 first = new Date(first.datetime);
-end   = new Date(end.datetime);
-var data_len = idv(end.getTime() - first.getTime(), 1000);
+last   = new Date(last.datetime);
+var data_len = idv(last.getTime() - first.getTime(), 1000);
 var max_domain = d3.max(dataset, function(d) { return d.good + d.bad;});
-
+const n = () => min(N, data_len);
 
 /* setup 引数: なし
  * 全体に対するデータセットを生成する
     */
 function setup() {
-    var ds = Array();
-    var n = N;
-    if(data_len < n) n = data_len;
-    var step = ( 0 | data_len / n);
-
-	return data_selecting(n, data_len, first.getTime());
-
-    return ds;
+	return data_selecting(data_len, first.getTime());
 }
 /*
 	DATETIMEが[left, right)内のコメントのリストを返す
@@ -40,19 +33,18 @@ function comments_range(left, right) {
  * 現在のstepと表示されているデータの時間範囲を秒単位で返す
  */
 function datarange_sec() {
-	var n = min(N, data_len);
 	var new_data_len = idv(data_len, MAGNIFICATION ** rate);
-	if(new_data_len < n) {
+	if(new_data_len < n()) {
 		if(rate != 0) {
 			rate--;
 			return datarange_sec();
 		}
-		new_data_len = n;
+		new_data_len = n();
 	}
 	return new_data_len;
 }
 
-const step_dataset = () => idv(datarange_sec(), min(N, data_len));
+const step_dataset = () => idv(datarange_sec(), n());
 
 /*
 	引数: 	datetime - 基準となるバーのdatetime形式の時間
@@ -75,12 +67,12 @@ function zoom_graph(datetime) {
 		new_last += first.getTime() - new_first;
 		new_first = first.getTime();
 	}
-	if(end.getTime() < new_last) {
-		new_first -= new_last - end.getTime();
-		new_last   = end.getTime();
+	if(last.getTime() < new_last) {
+		new_first -= new_last - last.getTime();
+		new_last   = last.getTime();
 	}
 
-	return data_selecting(min(N, data_len), new_data_len, new_first);
+	return data_selecting(new_data_len, new_first);
 }
 
 /* data_selecting
@@ -88,13 +80,13 @@ function zoom_graph(datetime) {
  * 引数: 範囲の下限firstと上限last unixtime形式
  * 返り値: データセット
  */
-function data_selecting(n, len, first) {
+function data_selecting(len, scope_first) {
 	var ds = Array();
-	var step = idv(len, n);
+	var step = idv(len, n());
 
-	for(let i = 1; i <= n; ++i) {
-        let target = i * step + len % n; // i本目のバーのdatetime
-        let target_utime = first + target * 1000;
+	for(let i = 1; i <= n(); ++i) {
+        let target = i * step + len % n(); // i本目のバーのdatetime
+        let target_utime = scope_first + target * 1000;
         var idx = binary_search(dataset, target_utime, function(a, b) { return new Date(a.datetime).getTime() < b; });
         if(idx > 0) idx--;
         var tmp = deep_copy(dataset[idx]);
@@ -107,27 +99,27 @@ function data_selecting(n, len, first) {
  * lr=0: 左移動(過去に) lr=1: 右移動(未来に)
  */
 function move_graph(old_ds, lr=0) {
-	var first = new Date(old_ds[0].datetime), last = new Date(old_ds.slice(-1)[0].datetime);
+	var range_first = new Date(old_ds[0].datetime), range_last = new Date(old_ds.slice(-1)[0].datetime);
 	var step_msec = step_dataset() * 1000;
 	var target_utime;
 	var ds = deep_copy(old_ds);
 
 
 	if(lr == 0) { // i == 0 だった場合の処理を忘れない
-		target_utime = first.getTime() - step_msec;
-		if(target_utime <= new Date(dataset[0].datetime).getTime())
+		target_utime = range_first.getTime() - step_msec;
+		if(target_utime <= first.getTime())
 			return old_ds;
 	}
 	else {
-		target_utime = last.getTime() + step_msec;
-		if(new Date(dataset.slice(-1)[0].datetime).getTime() < target_utime)
+		target_utime = range_last.getTime() + step_msec;
+		if(last.getTime() < target_utime)
 			return old_ds;
 	}
-	var idx = binary_search(dataset, target_utime, (a, b)
-				=> new Date(a.datetime).getTime() <= b);
+	var idx = binary_search(dataset, target_utime, (a, b) => new Date(a.datetime).getTime() <= b);
 	//targetより大きい最初のidxが返されるため-1
 	var new_data = deep_copy(dataset[idx-1]);
 	new_data.datetime = getDateTime(target_utime);
+	console.log(new_data.datetime);
 	if(lr == 0) {
 		ds.pop();
 		ds.unshift(new_data);
