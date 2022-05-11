@@ -31,5 +31,26 @@ article {
 
 .badComment {
   background: #C20000;
-}:
+}
+
+#comment_history {
+	width: min(80%, 600px);
+	margin: 0 auto;
+	padding: 0;
+}
+
+.grid_history_row {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 50% 50%;
+	margin: 10px 0;
+}
+
+.history_row_text {
+	grid-column: 1;
+}
+.history_row_datetime {
+	grid-column: 2;
+}
+
 

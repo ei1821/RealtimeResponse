@@ -11,7 +11,7 @@ if (isset($_GET["room_id"]) == true && $_GET["room_id"] != "") {
   $ret = $db->query("SELECT * FROM `comments` WHERE room_id = $room_id AND '$before_date' <= created_at AND created_at < '$now_date'");
   $retarr = array();
   foreach($ret["result"] as $row) {
-    $retarr[] = array("comment" => $row["comment"], "is_good" => $row["is_good"] == "1");
+    $retarr[] = array("comment" => $row["comment"], "is_good" => $row["is_good"] == "1", "datetime" => $row["created_at"]);
 
   }
   echo(json_encode($retarr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));

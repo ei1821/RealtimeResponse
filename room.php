@@ -33,6 +33,7 @@
         }
     }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -46,12 +47,12 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <script src="https://d3js.org/d3.v7.min.js"></script>
  <script >
-$(() => res_poll());
-$(() => com_poll());
 var res_logs = [];
 var comments = [];
+var id = <?= $room_id ?>;
+$(() => res_poll());
+$(() => com_poll());
 async function res_poll() {
-    var id = <?= $room_id ?>;
     try {
         const response = await $.getJSON("ajax/response_ajax.php?room_id=" + id);
         res_logs.unshift(response);
@@ -67,11 +68,12 @@ async function res_poll() {
 }
 
 async function com_poll() {
-    var id = <?= $room_id ?>;
     try {
-		comments = await $.getJSON("ajax/comment_ajax.php?room_id=" + id);
+		comments =  await $.getJSON("ajax/comment_ajax.php?room_id=" + id);
 		for(let i = 0; i < comments.length; ++i ){
 			niconicomment(i, comments[i].comment, comments[i].is_good);
+			add_comment_history(comments[i]);
+
 		}
     }catch(e) {
       console.error(e);
@@ -96,6 +98,26 @@ async function com_poll() {
   <svg>
   </svg>
 </div>
+
+<h2>コメント</h2>
+<div id="comment_history">
+<?php
+
+
+	$comments = $db->query("SELECT * FROM `comments` WHERE room_id = " . $room_id . " ORDER BY id DESC");
+
+	$comments = $comments["result"];
+
+	foreach($comments as $row) {
+?>
+	<div class="grid_history_row" style="background:<?= ($row["is_good"] == 1 ? '#8fadcc':'#cc8f8f') ?>">
+		<div class="history_row_text"><?= $row["comment"] ?></div>
+		<div class="history_row_datetime"><?= $row["created_at"] ?></div>
+
+	</div>
+<?php }?>
+</div>
+
 
 <input type="hidden" id="response_hiddenbutton" onclick="test_call();"></input>
  <script src="js/graph.js"></script>
