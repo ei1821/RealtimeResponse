@@ -44,6 +44,10 @@ article {
 #comment_stoker {
 	display: block;
 	position: absolute;
+	border: 2px solid;
 }
 
+.comment_stoker_row {
+	padding-top: 5px;
+}
 

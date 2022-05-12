@@ -93,7 +93,7 @@ ini_set('display_errors', "On");
   $new_cm = array();
   for($i=0; $i < count($comments); $i++) {
 	  $row = $comments[$i];
-	  $new_cm[] = array("id" => $row["id"], "datetime" => $row["created_at"], "is_good" => $row["is_good"], "comments" => $row["comment"]);
+	  $new_cm[] = array("id" => $row["id"], "datetime" => $row["created_at"], "is_good" => $row["is_good"], "comment" => $row["comment"]);
   }
 
   $comments = $new_cm;
@@ -148,6 +148,12 @@ ini_set('display_errors', "On");
 			var cms = comments_range(new Date($(this).data("time")).getTime(), new Date($(this).next("rect").data("time")).getTime());
 			if(cms.length > 0) {
 				console.log(cms);
+				for(let i = 0; i < cms.length; ++i) {
+					var cm_row = $("<div>").appendTo(stoker);
+					cm_row.text(cms[i].comment);
+					cm_row.addClass("comment_stoker_row");
+					cm_row.css({"background-color":(cms[i].is_good == "1" ? "#8fadcc" : "#cc8f8f")});
+				}
 				stoker.css({"left":e.clientX, "top": e.clientY});
 				stoker.show();
 			}
@@ -155,7 +161,8 @@ ini_set('display_errors', "On");
 		},
 		'mouseleave':function(e) {
 			stoker.hide();
-		}}, ".commented");
+			stoker.text("");
+		}}, ".overrect");
 
     }
 
@@ -173,7 +180,6 @@ ini_set('display_errors', "On");
   </div>
 
 	<div id="comment_stoker">
-stoker
 	</div>
 
   <a href="room_histories.php">ルームを選ぶ</a>
@@ -185,6 +191,7 @@ stoker
 
 	<script>
 	var stoker = $("#comment_stoker");
+	stoker.hide();
   	stoker.css({"background-color":"burlywood"});
 	</script>
     <script src="js/utils.js"></script>
