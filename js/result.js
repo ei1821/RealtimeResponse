@@ -16,8 +16,8 @@ const n = () => min(N, data_len);
 	unixtimeが[left, right)内のコメントのリストを返す
 */
 function comments_range(left, right) {
-	var l_idx = binary_search(comments, left, (a, b) => new Date(a.datetime).getTime() <  b);
-	var r_idx = binary_search(comments, right,(a, b) => new Date(a.datetime).getTime() <= b);
+	var l_idx = binary_search(comments, left, (a, b) => new Date(a.datetime).getTime() < b);
+	var r_idx = binary_search(comments, right,(a, b) => new Date(a.datetime).getTime() < b);
 	return deep_copy(comments.slice(l_idx, r_idx));
 }
 

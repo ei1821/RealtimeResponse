@@ -143,12 +143,19 @@ ini_set('display_errors', "On");
 			make_graph(ds);
 		});
 
-		$(document).on("mouseover", ".overrect", function(e) {
+		$(document).on({
+		"mouseenter":function(e) {
 			var cms = comments_range(new Date($(this).data("time")).getTime(), new Date($(this).next("rect").data("time")).getTime());
 			if(cms.length > 0) {
 				console.log(cms);
+				stoker.css({"left":e.clientX, "top": e.clientY});
+				stoker.show();
 			}
-		});
+
+		},
+		'mouseleave':function(e) {
+			stoker.hide();
+		}}, ".commented");
 
     }
 
@@ -165,6 +172,9 @@ ini_set('display_errors', "On");
     <svg/>
   </div>
 
+	<div id="comment_stoker">
+stoker
+	</div>
 
   <a href="room_histories.php">ルームを選ぶ</a>
   </article>
@@ -173,6 +183,10 @@ ini_set('display_errors', "On");
  <!-- footer -->
  <!-- /footer -->
 
+	<script>
+	var stoker = $("#comment_stoker");
+  	stoker.css({"background-color":"burlywood"});
+	</script>
     <script src="js/utils.js"></script>
     <script src="js/result.js"></script>
  </body>

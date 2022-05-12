@@ -41,5 +41,9 @@ article {
 
 }
 
+#comment_stoker {
+	display: block;
+	position: absolute;
+}
 
 
