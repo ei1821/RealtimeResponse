@@ -19,9 +19,10 @@ article {
 .history_row {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 35% 25% 25% 15%;
   border-bottom: 3px solid black;
   margin: 10px 0;
+  column-gap: 5px;
 }
 
 .history_row_name {
