@@ -154,7 +154,7 @@ ini_set('display_errors', "On");
 					cm_row.addClass("comment_stoker_row");
 					cm_row.css({"background-color":(cms[i].is_good == "1" ? "#8fadcc" : "#cc8f8f")});
 				}
-				stoker.css({"left":e.clientX, "top": e.clientY});
+				stoker.css({"left":e.clientX + 5, "top": e.clientY + 5});
 				stoker.show();
 			}
 
