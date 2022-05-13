@@ -128,6 +128,7 @@ ini_set('display_errors', "On");
 			}
 			ds = zoom_graph($(this).data("time"));
 			make_graph(ds);
+			if(e.which == 1 || e.which == 3) { stoker.hide(); }
 		});
 
 		$(document).on("keydown", function(e) {
@@ -141,6 +142,8 @@ ini_set('display_errors', "On");
 			else return;
 
 			make_graph(ds);
+
+			stoker.hide();stoker.text("");
 		});
 
 		$(document).on({

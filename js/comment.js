@@ -28,6 +28,7 @@ function add_comment_history(comment) {
 		com_row.css("background", "#8FADCC");
 	else
 		com_row.css("background", "#CC8F8F");
+	com.row.toggle("highlight");
 
 }
 
