@@ -16,6 +16,7 @@ $member = $ret["result"][0];
 
 //指定したハッシュがパスワードにマッチしているかチェック
 if (password_verify($_POST['pass'], $member['password'])) {
+	session_regenerate_id(true);
     //DBのユーザー情報をセッションに保存
     $_SESSION['id'] = $member['id'];
     $_SESSION['name'] = $member['name'];

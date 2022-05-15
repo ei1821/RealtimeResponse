@@ -3,7 +3,11 @@ html {
   width: 90%;
   margin: 10px 50px;
 }
-
+@media screen and (max-width: 480px) {
+	html {
+		margin: 5% 5%;
+	}
+}
 
 body {
   height: 100%;
