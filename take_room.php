@@ -33,10 +33,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="stylesheet" href="css/style.css">
  <link rel="stylesheet" href="css/take_room.css">
- <!-- [if lt IE 9] -->
- <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
- <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
- <!-- [endif] -->
+
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <script src="https://d3js.org/d3.v7.min.js"></script>
  <script type="text/javascript">
@@ -49,6 +46,7 @@ function sendReaction(tf) {
 			 .attr("placeholder","文字数は128文字以内にしてください");
 		return false;
 	}
+	txt = txt.val();
     // マスタデータの取得
     $.ajax({
         type: "POST"
