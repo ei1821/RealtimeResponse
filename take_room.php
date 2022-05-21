@@ -64,6 +64,15 @@ function sendReaction(tf) {
     });
     return false;
 }
+
+function exitRoom() {
+	if(!navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)){
+		window.close();
+	}
+	else {
+		window.open("take_room.php", "_blank");
+	}
+}
 </script>
  </head>
  <body>
@@ -100,7 +109,7 @@ function sendReaction(tf) {
     <br>
 
     <div class="room_exit">
-    <a href="joinroom.php">ルームを退出する</a>
+    <a href="javacript:void(0)" onclick="exitRoom();">ルームを退出する</a>
     </div>
 
 </article>
