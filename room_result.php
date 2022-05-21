@@ -89,7 +89,7 @@ ini_set('display_errors', "On");
   // 番兵
   $tmp["datetime"] = $room_info["closed_at"];
   $dataset[] = $tmp;
-
+	// 以下コメント配列の定義
   $new_cm = array();
   for($i=0; $i < count($comments); $i++) {
 	  $row = $comments[$i];
