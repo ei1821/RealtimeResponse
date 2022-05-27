@@ -8,6 +8,9 @@ $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
 $db = new MyDB();
 
+$name = $db->escape($name);
+$mail = $db->escape($mail);
+
 //フォームに入力されたmailがすでに登録されていないかチェック
 $sql = "SELECT * FROM `users` WHERE mail = '$mail'";
 
@@ -25,4 +28,4 @@ else {
 ?>
 
 <h1><?php echo $msg; ?></h1><!--メッセージの出力-->
-<h2><?php echo $link; ?></h2>
+<?php echo $link; ?>

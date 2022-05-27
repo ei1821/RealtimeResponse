@@ -2,10 +2,9 @@
 session_start();
 require_once __DIR__."/utils/utils.php";
 
-//フォームからの値をそれぞれ変数に代入
-$mail = $_POST['mail'];
-
 $db = new MyDB();
+//フォームからの値をそれぞれ変数に代入
+$mail = $db->escape($_POST['mail']);
 
 $sql = "SELECT * FROM `users` WHERE mail = '$mail'";
 
