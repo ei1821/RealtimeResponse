@@ -5,12 +5,17 @@ html {
 }
 html::-webkit-scrollbar {
   display: none; /*Google Chrome、Safari、Microsoft Edge対応のスクロールバー非表示コード*/
-} margin: 0 auto;
+}
 
+@media screen and (max-width: 480px) {
+	html {
+		margin: 0 5%;
+	}
+}
 body {
 	height: 100%;
-	border:10px solid #47a89c;/* 枠線 */
-    box-sizing:border-box;
+	/*border:10px solid #47a89c;/* 枠線 */
+    /*box-sizing:border-box;*/
 }
 
 
@@ -57,8 +62,7 @@ article > * {
 }
 
 .comment {
-  margin-bottom: auto;
-  margin-top: 5%;
+	margin: auto 0;
   grid-row: 5;
   text-align:center;
 }
