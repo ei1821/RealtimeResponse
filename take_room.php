@@ -1,16 +1,11 @@
 <?php
     require_once __DIR__."/utils/utils.php";
-    session_start();
-    $username = $_SESSION['name'];
     if (!isset($_SESSION['id'])) {//ログインしているとき
         $msg = '先にログインしてください。';
         echo "$msg<br><a href='signin.php'>ログインする</a>";
         exit;
     }
     $room_id  = $_POST["room_id"];
-    $db = new MyDB();
-
-    $user_id = $_SESSION["id"];
 
     $res = $db->query("SELECT * FROM `rooms` WHERE owner_id=$user_id AND is_closed=0");
     if($res["count"] > 0) {
@@ -44,15 +39,22 @@ function sendReaction(tf) {
 	if(txt.val().length > 128) {
 		txt.val("")
 			 .attr("placeholder","文字数は128文字以内にしてください");
-		return false;
+		txt = "";
 	}
-	txt = txt.val();
+	else {
+		txt = txt.val();
+	}
+	console.log(txt);
     // マスタデータの取得
     $.ajax({
         type: "POST"
       , url: "ajax/reaction_send_ajax.php"
       , data: { user_id: <?= $user_id ?>, room_id: <?= $room_id ?>, is_good: tf, text: txt}
     }).done(function(){
+		/*
+		var col =  (tf == 1? "#4682B4" : "#C20000");
+		$("html").css({"border":"5px solid " + col, "box-sizing":"border-box","margin":"5px", "border-image": "radial-gradient(#FFF, " + col +" )", "border-image-slice":"1"});
+*/
         // 特になし
     }).fail(function() {
         // 取得エラー
@@ -66,11 +68,12 @@ function sendReaction(tf) {
 }
 
 function exitRoom() {
-	if(!navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)){
-		window.close();
+	if(navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)){
+		window.location.href="./joinroom.php";
+		return false;
 	}
 	else {
-		window.open("take_room.php", "_blank");
+		window.close();
 	}
 }
 </script>
@@ -88,18 +91,18 @@ function exitRoom() {
         $room_owner = $db->query("SELECT name FROM `users` WHERE id = ".$res["owner_id"])["result"][0]["name"];
 
 ?>
-    <div class="title">
-      <h2>ルーム: <?= $room_name ?></h2>
+    <div tabindex="-1" class="title">
+      <h2 tabindex="-1">ルーム: <?= $room_name ?></h2>
     </div>
     <div class="owner_info">
       <p>開催者: <?= $room_owner ?> </p>
     </div>
     <div class="button_row">
       <div id="goodButton" class="button">
-        <a href="javascript:void(0)" value=1 onclick="sendReaction(1);">わかる</a>
+        <a  tabindex="-1" href="javascript:void(0)" value=1 onclick="sendReaction(1);">わかる</a>
       </div>
       <div id="badButton" class="button">
-        <a href="javascript:void(0)" value=0 onclick="sendReaction(0);">わからん</a>
+        <a tabindex="-1" href="javascript:void(0)" value=0 onclick="sendReaction(0);">わからん</a>
       </div>
     </div>
     <br>
@@ -109,7 +112,7 @@ function exitRoom() {
     <br>
 
     <div class="room_exit">
-    <a href="javacript:void(0)" onclick="exitRoom();">ルームを退出する</a>
+    <a href="javascript:void(0);" onclick="exitRoom();">ルームを退出する</a>
     </div>
 
 </article>
