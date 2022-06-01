@@ -18,6 +18,7 @@ article {
   height: 100%;
 }
 
-#echo_msg {
-	font-size: 20px
+.echo_msg {
+	font-size: 20px;
 }
+

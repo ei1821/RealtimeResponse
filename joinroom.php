@@ -1,21 +1,6 @@
 <?php
     require_once __DIR__."/utils/utils.php";
     session_start();
-    if (!isset($_SESSION['id'])) {//ログインしているとき
-        $msg = '先にログインしてください。';
-        echo "$msg<br><a href='signin.php'>ログインする</a>";
-        exit;
-    }
-    $username = $_SESSION['name'];
-    $user_id = $_SESSION["id"];
-    $db = new MyDB();
-
-    $res = $db->query("SELECT * FROM `rooms` WHERE owner_id=$user_id AND is_closed=0"); // まだ開催中のルームを所有する場合
-    if($res["count"] > 0) {
-        header("Location: room.php");
-        exit;
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -45,6 +30,22 @@
  </head>
  <body>
 
+<?php
+    if (!isset($_SESSION['id'])) {//ログインしているとき
+        $msg = '先にログインしてください。';
+        echo "<div class='echo_msg'>$msg<br><a href='signin.php'>ログインする</a></div>";
+        exit;
+    }
+    $username = $_SESSION['name'];
+    $user_id = $_SESSION["id"];
+    $db = new MyDB();
+
+    $res = $db->query("SELECT * FROM `rooms` WHERE owner_id=$user_id AND is_closed=0"); // まだ開催中のルームを所有する場合
+    if($res["count"] > 0) {
+        header("Location: room.php");
+        exit;
+    }
+?>
  <!----- main ----->
  <article>
     <h2>ルームの参加</h2>

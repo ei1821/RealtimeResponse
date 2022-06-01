@@ -1,16 +1,5 @@
 <?php
   require_once __DIR__."/utils/utils.php";
-
- if(isset($user_id)) {
-   //;
- }else {
-   $msg = "ログインしていません";
-   $link = "signin.php";
-   $link_v = "ログイン";
-   echo $msg . "<br><a href='$link'>$link_v</a>";
-
-   exit;
- }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -33,7 +22,18 @@
   });
  </script>
  </head>
- <body>
+<?php
+ if(isset($user_id)) {
+   //;
+ }else {
+   $msg = "ログインしていません";
+   $link = "signin.php";
+   $link_v = "ログイン";
+   ?><div class="echo_msg"><?php echo $msg . "<br><a href='$link'>$link_v</a>"; ?></div><?php
+   exit;
+ }
+?>
+<body>
 
  <!----- main ----->
  <article>

@@ -2,8 +2,7 @@
     require_once __DIR__."/utils/utils.php";
     session_start();
     if (isset($_SESSION['id'])) {//ログインしているとき
-        echo "ログインしています。<br>";
-        echo "<a href='index.php'>ホームへ</a>";
+		header("Location: ./index.php");
         exit;
     }
 ?>

@@ -3,11 +3,6 @@
 
     session_start();
     $username = $_SESSION['name'];
-    if (isset($_SESSION['id'])) {//ログインしているとき
-        echo "ログインしています。<br>";
-        echo "<a href='index.php'>ホームへ</a>";
-        exit;
-    }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -23,6 +18,15 @@
  <!-- [endif] -->
  <script src="main.js"></script>
  </head>
+<?php
+    if(isset($_SESSION['id'])) {//ログインしているとき
+		echo "<div class='echo_msg'>";
+		echo "ログインしています。<br>";
+		echo "<a href='index.php'>ホームへ</a>";
+		echo "</div>";
+        exit;
+    }
+?>
  <body>
 
     <h1>新規会員登録</h1>

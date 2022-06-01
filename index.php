@@ -1,17 +1,5 @@
 <?php
     require_once __DIR__."/utils/utils.php";
-session_start();
-    if (isset($_SESSION['id'])) {//ログインしているとき
-
-        $username = $_SESSION['name'];
-        $user_id = $_SESSION["id"];
-        $msg = 'こんにちは' . htmlspecialchars($username, \ENT_QUOTES, 'UTF-8') . 'さん';
-        $link = '<a href="logout.php">ログアウト</a>';
-        $db= new MyDB();
-    } else {//ログインしていない時
-        $msg = 'ログインしていません';
-        $link = '<a href="signin.php">ログイン</a>';
-    }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -27,7 +15,19 @@ session_start();
  <!-- [endif] -->
  <script ></script>
  </head>
- <body>
+<?php
+    if (isset($_SESSION['id'])) {//ログインしているとき
+        $username = $_SESSION['name'];
+        $user_id = $_SESSION["id"];
+        $msg = 'こんにちは' . htmlspecialchars($username, \ENT_QUOTES, 'UTF-8') . 'さん';
+        $link = '<a href="logout.php">ログアウト</a>';
+        $db= new MyDB();
+    } else {//ログインしていない時
+        $msg = 'ログインしていません';
+        $link = '<a href="signin.php">ログイン</a>';
+    }
+?>
+<body>
  <!-- header-->
  <header><?= $msg ?> <?= $link ?> </header>
  <nav></nav>
@@ -57,9 +57,6 @@ if( isset($user_id) ) {
 </section>
  </article>
  <!--- /main ----->
-
- <!- footer -->
- <footer>フッター</footer>
  <!--- /footer ----->
  </body>
 </html>
