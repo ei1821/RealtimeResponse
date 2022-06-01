@@ -1,11 +1,22 @@
 <?php
     require_once __DIR__."/utils/utils.php";
     session_start();
+?>
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+ <meta charset="utf-8">
+ <title>なんかのサイトのホーム</title>
+ <meta name="description" content="ディスクリプションを入力">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="css/style.css">
+ <script src="main.js"></script>
+ </head>
 
-    $db = new MyDB();
+<?php
     if (!isset($_SESSION['id'])) {//ログインしてないとき
         $msg = 'ルームを作る方は先にログインしてください。';
-        echo "$msg<br><a href='signin.php'>ログインする</a>";
+        echo "<div class='echo_msg'>$msg<br><a href='signin.php'>ログインする</a></div>";
         exit;
     }
     else if(isset($_SESSION["room_id"])) {  //ルーム作成済みの場合
@@ -26,22 +37,7 @@
     }
 
 ?>
-<!DOCTYPE html>
-<html lang="ja">
- <head>
- <meta charset="utf-8">
- <title>なんかのサイトのホーム</title>
- <meta name="description" content="ディスクリプションを入力">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="css/style.css">
- <!-- [if lt IE 9] -->
- <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
- <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
- <!-- [endif] -->
- <script src="main.js"></script>
- </head>
- <body>
-
+<body>
  <!----- main ----->
  <article>
     <h2>ルームの作成</h2>
