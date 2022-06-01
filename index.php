@@ -9,10 +9,6 @@
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
  <link rel="stylesheet" href="css/style.css">
- <!-- [if lt IE 9] -->
- <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
- <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
- <!-- [endif] -->
  <script ></script>
  </head>
 <?php
@@ -21,7 +17,6 @@
         $user_id = $_SESSION["id"];
         $msg = 'こんにちは' . htmlspecialchars($username, \ENT_QUOTES, 'UTF-8') . 'さん';
         $link = '<a href="logout.php">ログアウト</a>';
-        $db= new MyDB();
     } else {//ログインしていない時
         $msg = 'ログインしていません';
         $link = '<a href="signin.php">ログイン</a>';
