@@ -140,15 +140,14 @@ ini_set('display_errors', "On");
 				ds = move_graph(ds, 0);
 			}
 			else return;
-
 			make_graph(ds);
-
 			stoker.hide();stoker.text("");
 		});
 
 		$(document).on({
 		"mouseenter":function(e) {
 			var cms = comments_range(new Date($(this).data("time")).getTime(), new Date($(this).next("rect").data("time")).getTime());
+			stoker.text("");
 			if(cms.length > 0) {
 				console.log(cms);
 				for(let i = 0; i < cms.length; ++i) {
@@ -160,7 +159,6 @@ ini_set('display_errors', "On");
 				stoker.css({"left":e.clientX + 5, "top": e.clientY + 5});
 				stoker.show();
 			}
-
 		},
 		'mouseleave':function(e) {
 			stoker.hide();
