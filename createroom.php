@@ -3,7 +3,6 @@
     session_start();
 
     $db = new MyDB();
-
     if (!isset($_SESSION['id'])) {//ログインしてないとき
         $msg = 'ルームを作る方は先にログインしてください。';
         echo "$msg<br><a href='signin.php'>ログインする</a>";
@@ -16,10 +15,8 @@
     else {
         $username = $_SESSION['name'];
         $user_id = $_SESSION["id"];
-
         $res = $db->query("SELECT * FROM `rooms` WHERE owner_id=$user_id AND is_closed=0");
         if($res["count"] > 0) {
-
             $res = $res["result"][0];
             $_SESSION["room_id"] = $res["id"];
             $_SESSION["room_name"]  = $res["name"];
@@ -27,7 +24,6 @@
             exit;
         }
     }
-
 
 ?>
 <!DOCTYPE html>
