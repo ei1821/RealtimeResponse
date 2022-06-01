@@ -20,10 +20,7 @@
  </head>
 <?php
     if(isset($_SESSION['id'])) {//ログインしているとき
-		echo "<div class='echo_msg'>";
-		echo "ログインしています。<br>";
-		echo "<a href='index.php'>ホームへ</a>";
-		echo "</div>";
+		echo_msg("ログインしています。<br>\n<a href='index.php'ホームへもどる</a>");
         exit;
     }
 ?>

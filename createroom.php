@@ -16,7 +16,7 @@
 <?php
     if (!isset($_SESSION['id'])) {//ログインしてないとき
         $msg = 'ルームを作る方は先にログインしてください。';
-        echo "<div class='echo_msg'>$msg<br><a href='signin.php'>ログインする</a></div>";
+		echo_msg("$msg<br><a href='signin.php'>ログインする</a>");
         exit;
     }
     else if(isset($_SESSION["room_id"])) {  //ルーム作成済みの場合

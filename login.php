@@ -37,11 +37,8 @@ if (password_verify($_POST['pass'], $member['password'])) {
     $msg = 'メールアドレスもしくはパスワードが間違っています。';
     $link = '<a href="signin.php">戻る</a>';
 }
+	echo_msg("<h1>$msg</h1>\n$link");
 ?>
-
-<div class="echo_msg"><h1><?php echo $msg; ?></h1>
-<?php echo $link; ?>
-</div>
 
 </body>
 

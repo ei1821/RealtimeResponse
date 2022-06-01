@@ -29,7 +29,7 @@
    $msg = "ログインしていません";
    $link = "signin.php";
    $link_v = "ログイン";
-   ?><div class="echo_msg"><?php echo $msg . "<br><a href='$link'>$link_v</a>"; ?></div><?php
+   echo_msg("$msg<br><a href='$link'>$link_v</a>");
    exit;
  }
 ?>

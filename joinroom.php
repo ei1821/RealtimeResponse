@@ -33,7 +33,7 @@
 <?php
     if (!isset($_SESSION['id'])) {//ログインしているとき
         $msg = '先にログインしてください。';
-        echo "<div class='echo_msg'>$msg<br><a href='signin.php'>ログインする</a></div>";
+		echo_msg("$msg<br><a href='signin.php'>ログインする</a>");
         exit;
     }
     $username = $_SESSION['name'];
