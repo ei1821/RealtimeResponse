@@ -26,6 +26,6 @@ else {
 ?>
 
 <div class="echo_msg">
-<h1><?php echo $msg; ?></h1><!--メッセージの出力-->
-<?php echo $link; ?>
+<h1><?= $msg ?></h1><!--メッセージの出力-->
+<?= $link ?>
 </div>
