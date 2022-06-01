@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', "On");
+	ini_set('display_errors', "On");
   require_once __DIR__."/utils/utils.php";
 
   if(isset($user_id)) {
@@ -107,7 +107,7 @@ ini_set('display_errors', "On");
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="stylesheet" href="css/style.css">
- <link rel="stylesheet" href="css/room_histories.css">
+ <link rel="stylesheet" href="css/room_result.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <script src="https://d3js.org/d3.v7.min.js"></script>
  <script>
@@ -164,7 +164,6 @@ ini_set('display_errors', "On");
 			stoker.hide();
 			stoker.text("");
 		}}, ".overrect");
-
     }
 
  </script>
@@ -179,6 +178,25 @@ ini_set('display_errors', "On");
   <div id="ressvg">
     <svg/>
   </div>
+<h2>コメント</h2>
+<div id="comment_history">
+<?php
+
+
+	$comments = $db->query("SELECT * FROM `comments` WHERE room_id = " . $room_info["id"] . " ORDER BY id DESC");
+
+	$comments = $comments["result"];
+
+	foreach($comments as $row) {
+?>
+	<div class="grid_history_row" style="background:<?= ($row["is_good"] == 1 ? '#8fadcc':'#cc8f8f') ?>">
+		<div class="history_row_text"><?= $row["comment"] ?></div>
+		<div class="history_row_datetime"><?= $row["created_at"] ?></div>
+
+	</div>
+<?php }?>
+</div>
+
 
 	<div id="comment_stoker">
 	</div>
