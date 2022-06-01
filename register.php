@@ -6,8 +6,6 @@ $name = $_POST['name'];
 $mail = $_POST['mail'];
 $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
-$db = new MyDB();
-
 $name = $db->escape($name);
 $mail = $db->escape($mail);
 
@@ -27,5 +25,7 @@ else {
 }
 ?>
 
+<div class="echo_msg">
 <h1><?php echo $msg; ?></h1><!--メッセージの出力-->
 <?php echo $link; ?>
+</div>

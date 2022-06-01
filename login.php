@@ -1,8 +1,20 @@
 <?php
-session_start();
 require_once __DIR__."/utils/utils.php";
+?>
 
-$db = new MyDB();
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+ <meta charset="utf-8">
+ <title>なんかのサイトのホーム</title>
+ <meta name="description" content="ディスクリプションを入力">
+ <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+ <link rel="stylesheet" href="css/style.css">
+ <script ></script>
+ </head>
+<body>
+
+<?php
 //フォームからの値をそれぞれ変数に代入
 $mail = $db->escape($_POST['mail']);
 
@@ -27,5 +39,10 @@ if (password_verify($_POST['pass'], $member['password'])) {
 }
 ?>
 
-<h1><?php echo $msg; ?></h1>
+<div class="echo_msg"><h1><?php echo $msg; ?></h1>
 <?php echo $link; ?>
+</div>
+
+</body>
+
+</html>
