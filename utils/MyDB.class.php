@@ -33,17 +33,17 @@ class MyDB
     }
 
 	// トランザクション
-	function beginTransaction()
+	function begin_transaction()
 	{
-		$this->beginTransaction();
+		$this->mysqli->begin_transaction();
 	}
 	function commit()
 	{
-		$this->commit();
+		$this->mysqli->commit();
 	}
-	function rollBack()
+	function rollback()
 	{
-		$this->rollBack();
+		$this->mysqli->rollback();
 	}
 
 
