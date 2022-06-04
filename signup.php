@@ -1,8 +1,5 @@
 <?php
     require_once __DIR__."/utils/utils.php";
-
-    session_start();
-    $username = $_SESSION['name'];
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -12,15 +9,11 @@
  <meta name="description" content="ディスクリプションを入力">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="stylesheet" href="css/style.css">
- <!-- [if lt IE 9] -->
- <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
- <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
- <!-- [endif] -->
  <script src="main.js"></script>
  </head>
 <?php
     if(isset($_SESSION['id'])) {//ログインしているとき
-		echo_msg("ログインしています。<br>\n<a href='index.php'ホームへもどる</a>");
+		echo_msg("ログインしています。<br>\n<a href='index.php'>ホームへもどる</a>");
         exit;
     }
 ?>
@@ -43,3 +36,7 @@
     <input type="submit" value="新規登録">
     </form>
     <p>すでに登録済みの方は<a href="signin.php">こちら</a></p>
+
+</body>
+
+</html>
