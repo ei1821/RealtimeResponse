@@ -49,6 +49,7 @@ if( isset($user_id) ) {
   echo "<a href='./room_histories.php'>過去のルーム</a>";
 }
 ?>
+<a href="./help.php">使い方</a>
 </section>
  </article>
  <!--- /main ----->
