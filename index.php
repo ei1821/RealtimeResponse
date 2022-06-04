@@ -30,7 +30,7 @@
 
  <!-- main -->
  <article>
- <h1>リアルタイムで理解度のレスポンスを返すやつ</h1>
+ <h1>リアルタイムで理解度のレスポンスを返すやつ(仮)</h1>
  <section>
 <a href="./signup.php">新規登録</a>
 <a href="./signin.php">ログイン</a>
@@ -46,7 +46,7 @@
 <?php
 }
 if( isset($user_id) ) {
-  echo "<a href='./room_histories.php'>過去のルーム</a>";
+  echo "<a href='./room_histories.php'>過去のルーム</a>\n";
 }
 ?>
 <a href="./help.php">使い方</a>
