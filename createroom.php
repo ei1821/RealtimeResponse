@@ -1,6 +1,5 @@
 <?php
     require_once __DIR__."/utils/utils.php";
-    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -41,20 +40,20 @@
  <!----- main ----->
  <article>
     <h2>ルームの作成</h2>
- <section>
- <form action="room_register.php" method="post">
-    <div>
-        <label>ルーム名：<label>
-        <input type="text" name="name" required>
-    </div>
-    <input type="submit" value="ルームを作成">
-    </form>
+	 <section>
+	 <form action="room_register.php" method="post">
+    	<div>
+        	<label>ルーム名：<label>
+        	<input type="text" name="name" required>
+    	</div>
+    	<input type="submit" value="ルームを作成">
+	</form>
 
     <br><br>
     <div>
         <a href="index.php">ホームに戻る</a>
-</div>
-</section>
+	</div>
+	</section>
  </article>
  <!----- /main ----->
 

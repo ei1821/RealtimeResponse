@@ -1,6 +1,5 @@
 <?php
     require_once __DIR__."/utils/utils.php";
-    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
